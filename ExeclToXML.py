@@ -1,6 +1,6 @@
 # Install the openpyxl library
 from openpyxl import load_workbook
-from yattag import Doc, indent, EACH_LINE
+from yattag import Doc, indent
 
 # for chdir()
 import os
@@ -17,7 +17,7 @@ ws = wb.worksheets[3]
 # Returning returns a triplet
 doc, tag, text = Doc().tagtext()
   
-xml_header = '<?xml version="1.0" encoding="UTF-8"?>'
+xml_header = '<?xml version="1.0" encoding="EUC-KR"?>'
 xml_schema = '<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"></xs:schema>'
   
 # Appends the String to document
@@ -27,7 +27,7 @@ doc.asis(xml_schema)
 with tag('InterfaceDefDoc'):    #인터페이스정의서
     for row in ws.iter_rows(min_row=3, max_row=3977, min_col=1, max_col=13):
         col = [cell.value for cell in row]
-        print(col)
+#        print(col)
         with tag("Row"):
             with tag("Interface_ID"):
                 text(col[0])
@@ -46,6 +46,7 @@ with tag('InterfaceDefDoc'):    #인터페이스정의서
             with tag("AccLength"):
                 text(col[9])
             with tag("Definition"):
+                col[10].replace(r"\u2219"," ")
                 text(col[10])
             with tag("Remarks"):
                 if col[12]:
@@ -58,5 +59,5 @@ result = indent(
     indent_text=False
 )
   
-with open("./XML/krx_spec_inf_splt.xml", "w", encoding='UTF-8') as f:
+with open("./XML/krx_spec_inf_splt.xml", "w", encoding='EUC-KR', errors='replace') as f:
     f.write(result)
