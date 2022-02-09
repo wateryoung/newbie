@@ -25,7 +25,7 @@ doc.asis(xml_header)
 #doc.asis(xml_schema)
   
 with tag('InterfaceDefDoc'):    #인터페이스정의서
-    for row in ws.iter_rows(min_row=3, max_row=max_row, min_col=1, max_col=13):
+    for row in ws.iter_rows(min_row=3, max_row=ws.max_row, min_col=1, max_col=13):
         col = [cell.value for cell in row]
 #        print(col)
         with tag("Row"):
